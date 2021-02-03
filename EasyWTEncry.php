@@ -1,5 +1,5 @@
 <?php
-namespace App\Util;
+namespace XXXX;
 
 /* 字符串加/解密机制 
 ** create ：王智鹏（WAM）
@@ -68,7 +68,7 @@ class EasyWTEncry
 	}
 
 	/* 加密 */
-	public function encryption ($data, Int $expire=0, String $secret_key='') 
+	public function encryption ($data, Int $expire=0) 
 	{
 		
 		if (empty($data)) 
@@ -88,7 +88,7 @@ class EasyWTEncry
 		
 		$ip = $this->ipverify?:'';
 		
-		$secret_key = !empty($secret_key)?$secret_key:$this->secret_key;
+		$secret_key = $this->secret_key;
 		
 		$encry_result = base64_encode($this->encryption_operation($data, $ip, $expire, $secret_key));
 		
@@ -152,7 +152,7 @@ class EasyWTEncry
 	}
 	
 	/* 解密 */
-	public function decryption (String $string, String $secret_key='') 
+	public function decryption (String $string, String $secret_key='', String $ipverify='') 
 	{
 		
 		$string = strrev($string);
@@ -163,7 +163,7 @@ class EasyWTEncry
 		
 		$encry_result = base64_decode(substr($string, $string_len).substr($string, 0, $string_len));
 		
-		$ip = $this->ipverify?:'';
+		$ip = !empty($ipverify)?$ipverify:($this->ipverify?:'');
 		
 		return $this->decryption_operation($encry_result, $ip, $secret_key);
 	}
@@ -261,7 +261,7 @@ class EasyWTEncry
 	}
 
 	/* 更新加密字符串有效期 */
-	public function update_expire ($string, String $expire_date) 
+	public function update_expire (String $string, String $expire_date) 
 	{
 		
 		$string = strrev($string);
