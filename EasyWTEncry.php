@@ -1,11 +1,13 @@
 <?php
-namespace xxxxx;
+namespace App\Util;
 
 /* 字符串加/解密机制 
 ** create ：王智鹏（WAM）
 */
 class EasyWTEncry
 {
+
+	private $decimal = 3;
 	
 	/* 加密密钥 */
 	private $secret_key;
@@ -26,7 +28,7 @@ class EasyWTEncry
 		$secret_md5     = MD5($secret_key);
 		
 		$secret_md5_len = strlen($secret_md5);
-
+		
 		$secret_crc32   = crc32($secret_md5);
 		
 		$fixed_num = 0;
@@ -35,8 +37,8 @@ class EasyWTEncry
 		{
 			$fixed_num += $secret_crc32 % ord($secret_md5[$i]);
 		}
-
-		$decimal = 2;
+		
+		$decimal = $this->decimal;
 
 		$cardinal_number = $secret_crc32 / $fixed_num / pi();
 
